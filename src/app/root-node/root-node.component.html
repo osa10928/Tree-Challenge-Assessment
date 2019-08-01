@@ -1,0 +1,62 @@
+<header class="root d-flex flex-wrap align-items-center p-2 pl-4">
+  <h1 class="root-heading mr-auto">Root</h1>
+  <div class="btn-group">
+  	<button (click)="open(createFactory)" class="root-btn btn btn-success btn-sm">Create Factory</button>
+  	<button (click)="open(deleteAll)" class="root-btn btn btn-danger btn-sm">Delete All</button>
+  </div>
+</header>
+
+<section class="factories">
+	<article *ngFor="let factory of factories" class="factories-list d-flex flex-column">
+		<app-factory-node 
+		[inputFactory]="factory"
+		(deleteId)="deleteOneFactory($event)"></app-factory-node>
+	</article>
+</section>
+
+<ng-template #createFactory let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="create-factory" id="create-factory-title">
+      Create Factory
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  	<form #factoryForm="ngForm" (ngSubmit)="submitFactory(factoryName.value)">
+  		<div class="form-group">
+  			<label for="factoryName">Factory Name</label>
+  			<input type="text" class="form-control" id="factoryName" required [(ngModel)]="factoryForm.name" name="factoryName" #factoryName />
+  			<small id="nameHelp" class="form-text text-muted">*Required</small>
+
+  		</div>
+  		 <div class="modal-footer">
+    		<button type="button" class="btn btn-secondary" (click)="c('cancel')">Cancel</button>
+    		<button type="submit" class="btn btn-success" [disabled]="!factoryForm.form.valid">Create
+      		</button>
+      		<button id="createFactoryBtn" type="button" (click)="c('create')" hidden></button>
+  		</div>
+  	</form>
+  </div>
+</ng-template>
+
+<ng-template #deleteAll let-c="close" let-d="dismiss">
+	<div class="modal-header">
+    	<h4 class="delete-all" id="delete-all-title">
+      		Delete All Factories
+    	</h4>
+    	<button type="button" class="close" aria-label="Close" (click)="c('cancel')">
+      		<span aria-hidden="true">&times;</span>
+    	</button>
+    </div>
+    <div class="modal-body">
+    	<p>Did you want to delete all current factories?</p>
+    </div>
+    <div class="modal-footer">
+    	<button type="button" class="btn btn-secondary" (click)="c('cancel')">Cancel</button>
+    	<button (click)="deleteAllFactories()" type="button" class="btn btn-danger">Delete
+      	</button>
+      	<button id="deleteFactoriesBtn" type="button" (click)="c('create')" hidden></button>
+  	</div>
+</ng-template>

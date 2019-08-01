@@ -1,1 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
+ul {
+	margin-block-start: 0;
+	padding-inline-start: 0;
+}
+
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+
+.btn {
+	border-radius: 10px;
+	border: 1px solid white;
+	transition: color .3s, background-color .5s;
+}
+
+.btn-sm {
+	font-size: .7rem;
+}
+
+.btn-success {
+
+	&:hover {
+		color: #28a745;
+		background-color: #fff;
+	}
+}
+
+.btn-danger {
+
+	&:hover {
+		color: #dc3545;
+		background-color: #fff;
+	}
+}
+
+.btn-secondary {
+
+	&:hover {
+		color: #6c757d;
+		background-color: #fff;
+	}
+}
+
+@media only screen and (min-width : 550px) {
+    html {
+        font-size: 22px;
+    }
+}
+
+@media only screen and (min-width : 750px) {
+    html {
+        font-size: 26px;
+    }
+}

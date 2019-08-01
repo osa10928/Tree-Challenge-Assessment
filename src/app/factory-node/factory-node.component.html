@@ -1,0 +1,88 @@
+<section>
+	<header *ngIf="!editName" class="d-flex align-items-center">
+		<h2>{{ inputFactory.name }}</h2>
+	</header>
+	<form #factoryNameForm="ngForm" *ngIf="editName" (ngSubmit)="submitEditFactoryName(editFactoryName.value)" class="d-flex">
+		<div class="form-group">
+			<label for="factoryEditName">Factory Name</label>
+			<input #editFactoryName [(ngModel)]="factoryNameForm.name" class="factory-edit-name form-control" type="text" name="factoryEditName" placeholder="{{ inputFactory.name }}" required autofocus>
+			<small id="editNameHelp" class="form-text text-muted">*Required</small>
+			<div class="btn-group">
+				<button type="button" (click)="toggleEditName()" class="btn btn-sm btn-secondary">Cancel</button>
+				<button type="submit" class="btn btn-sm btn-success">Submit</button>
+			</div>
+		</div>
+	</form>
+</section>
+<div *ngIf="!editName" class="factory-btns btn-group d-flex flex-nowrap justify-content-center">
+	<button (click)="toggleEditName()" class="btn btn-sm btn-secondary">Edit Name</button>
+	<button (click)="open(createChildren)" class="btn btn-sm btn-success">Generate</button>
+	<button (click)="open(deleteFactory)" class="btn btn-sm btn-danger">Delete Factory</button>
+</div>
+<section class="mt-4">
+	<ul class="child-nodes-list">
+		<li *ngFor="let child of children" class="d-flex">
+			<app-child-node class="mr-2" [num]="child"></app-child-node>
+			<div class="time-container form-group d-flex align-items-center w-50 mr-2">
+				<label for="start-time">Start: </label>
+				<input class="start-stop-time" type="time" name="start-time" value="00:00">
+			</div>
+			<div class="time-container form-group d-flex align-items-center w-50">
+				<label for="stop-time">Stop: </label>
+				<input class="start-stop-time" type="time" name="stop-time" value="00:00">
+			</div>
+		</li>
+	</ul>
+</section>
+
+<ng-template #createChildren let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="create-children" id="create-children-title">
+      Create Children
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="c('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+  	<form #childrenForm="ngForm" (ngSubmit)="submitChildren(+childrenNumber.value, +lowerBound.value, +upperBound.value)">
+  		<div class="form-group">
+  			<label for="childrenNumber">Number of Children</label>
+  			<input type="number" class="form-control" id="childrenNumber" required [(ngModel)]="childrenForm.number" name="childrenNumber" #childrenNumber min="1" max="15"/>
+  			<small id="childrenNumberHelp" class="form-text text-muted">*Choose between 1 and 15</small>
+  		</div>
+  		<div class="form-group factory-range range d-flex mx-auto align-items-center">
+  	  		<label for="numberRangeSpan">Range</label>
+			<span name="numberRangeSpan" class="factory-range-text text-center">Between: <input class="factory-range-btn btn p-0" type="number" id="upper" placeholder="0"
+			value="0" #lowerBound> and <input class="factory-range-btn btn p-0" type="number" placeholder="100"
+			value="100" #upperBound></span>
+  		</div>
+  		 <div class="modal-footer">
+    		<button type="button" class="btn btn-secondary" (click)="c('cancel')">Cancel</button>
+    		<button type="submit" class="btn btn-success" [disabled]="!childrenForm.form.valid">Create
+      		</button>
+      		<button id="createChildrenBtn" type="button" (click)="c('create')" hidden></button>
+  		</div>
+  	</form>
+  </div>
+</ng-template>
+
+<ng-template #deleteFactory let-c="close" let-d="dismiss">
+	<div class="modal-header">
+    	<h4 class="delete-factory" id="delete-factory-title">
+      		Delete {{ inputFactory.name }} Factory?
+    	</h4>
+    	<button type="button" class="close" aria-label="Close" (click)="c('cancel')">
+      		<span aria-hidden="true">&times;</span>
+    	</button>
+    </div>
+    <div class="modal-body">
+    	<p>Did you want to delete this factory?</p>
+    </div>
+    <div class="modal-footer">
+    	<button type="button" class="btn btn-secondary" (click)="c('cancel')">Cancel</button>
+    	<button (click)="deleteOneFactory()" type="button" class="btn btn-danger">Delete
+      	</button>
+      	<button id="deleteFactoryBtn" type="button" (click)="c('create')" hidden></button>
+  	</div>
+</ng-template>

@@ -1,0 +1,8 @@
+.root {
+	background-color: purple;
+	color: white;
+
+	>:not(:first-child) {
+		margin-right: .5rem !important;
+	}
+}
